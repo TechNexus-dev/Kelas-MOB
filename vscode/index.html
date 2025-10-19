@@ -1,0 +1,256 @@
+<!doctype html> <!-- deklarasi tipe dokumen HTML5 -->
+<html lang="id"> <!-- elemen root dengan atribut bahasa Indonesia -->
+<head> <!-- bagian meta data --> 
+  <meta charset="utf-8" /> <!-- pengaturan karakter UTF-8 -->
+  <meta name="viewport" content="width=device-width,initial-scale=1" /> <!-- pengaturan viewport untuk responsif -->
+  <title>Website Modern — Pengenalan & Materi</title> <!-- judul halaman -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- optimasi pemuatan font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"> <!-- menyertakan font Inter dari Google Fonts -->
+  <link rel="stylesheet" href="style.css" /> <!-- menyertakan file CSS eksternal -->
+</head> <!-- akhir bagian meta data --> 
+<body> <!-- bagian konten -->
+  <header> <!-- bagian header -->
+        <div class="brand"> <!-- logo dan nama situs -->
+      <div class="logo">MOB</div> <!-- inisial logo -->
+      <div> <!-- nama dan deskripsi situs -->
+        <div style="font-weight:700">MOB TechNexus</div> <!-- nama situs -->
+        <div style="font-size:12px;color:var(--muted)">Pengenalan • Materi • Upload</div> <!-- deskripsi singkat -->
+      </div> <!-- akhir nama dan deskripsi situs -->
+    </div> <!-- akhir logo dan nama situs -->
+    <nav> <!-- navigasi utama -->
+      <a href="#home" class="nav-link active" data-page="home">Beranda</a> <!-- tautan ke beranda -->
+      <a href="#materi" class="nav-link" data-page="materi">Materi Otomotif</a> <!-- tautan ke materi otomotif -->
+      <a href="#upload" class="nav-link" data-page="upload">Upload</a> <!-- tautan ke halaman upload -->
+      <a href="#jadwal-kuliah"  class="nav-link" data-page="jadwal-kuliah">Jadwal Kuliah</a> <!-- tautan ke jadwal kuliah -->
+      <a href="#kalender-akademik"  class="nav-link" data-page="kalender-akademik">Kalender Akademik</a> <!-- tautan ke kalender akademik -->
+    </nav> <!-- akhir navigasi utama -->
+    <div class="theme-toggle" style="margin-left:12px">
+      <button id="themeToggleBtn" aria-label="Toggle theme">🌗</button>
+    </div>
+  </header> <!-- akhir bagian header -->
+  
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="page page-home">
+      <div class="hero">
+        <div class="card">
+          <h1>Halo! Selamat datang di Kelas B MO Angkatan 2024</h1>
+          <p class="lead">Di sini kamu dapat melihat data pengenalan anggota, materi singkat otomotif, dan fitur upload foto/video. Desain responsif dan modern.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn small" onclick="scrollToPeople()">Lihat Anggota</a>
+            <a class="btn small" href="#materi" onclick="navigate('materi')">Baca Materi</a>
+          </div>
+        </div>
+
+           <aside class="card" style="height:100%">
+          <h3 style="margin-top:0">🌟 Highlight</h3>
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+           <ul>
+                <p>🔥 Tampilan elegan & modern</p>
+                <p>📸 Upload foto/video langsung</p>
+                <p>🧠 Materi otomotif ringkas</p>
+                <p>📅 Jadwal kuliah update</p>
+                <p>⚙️ Animasi halus & interaktif</p>
+          </ul>
+          </div>
+        </aside>
+      </div>
+
+      <div class="card">
+        <h2>👥Daftar Anggota Kelas</h2>
+        <div class="people-grid" id="peopleGrid"></div>
+      </div>
+    </section>
+    
+    <!-- MATERI -->
+  <section id="materi" class="page page-materi" style="display:none;margin-top:18px"> <!-- halaman materi otomotif -->
+      <div class="card materi"> <!-- kartu materi -->
+        <h2>Materi Otomotif — Ringkasan</h2> <!-- judul materi -->
+        <p style="color:var(--muted)">Ringkasan materi otomotif yang cocok untuk pemula: komponen mesin, sistem pembakaran, kelistrikan kendaraan, perawatan, dan safety.</p> <!-- deskripsi materi -->
+        <div class="materi-list"> 
+      <div class="materi-item">
+        <button class="materi-header">1. Mesin & Komponen ⚙️</button>
+        <div class="materi-content">
+          <p>Pelajari bagian utama mesin: blok silinder, piston, klep, sistem pendingin, dan pelumasan.</p>
+          <ul> 
+            <li>Cara kerja mesin 4 langkah</li>
+            <li>Komponen utama mesin</li>
+            <li>Proses pembakaran internal</li>
+          </ul>
+          <div class="upload-section">
+            <p><b>Upload catatan atau foto materi ini:</b></p>
+            <input type="file" class="materi-file" accept="image/*,.pdf,.docx">
+            <div class="preview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="materi-item">
+        <button class="materi-header">2. Sistem Bahan Bakar & Pembakaran ⛽</button>
+        <div class="materi-content">
+          <p>Memahami sistem suplai bahan bakar, pembakaran, dan peran injektor serta karburator.</p>
+          <ul>
+            <li>Jenis bahan bakar kendaraan</li>
+            <li>Sistem injeksi modern</li>
+            <li>Proses pengapian</li>
+          </ul>
+          <div class="upload-section">
+            <p><b>Upload dokumen atau gambar:</b></p>
+            <input type="file" class="materi-file" accept="image/*,.pdf,.docx">
+            <div class="preview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="materi-item">
+        <button class="materi-header">3. Kelistrikan & Elektronik ⚡</button>
+        <div class="materi-content">
+          <p>Pelajari rangkaian listrik, baterai, alternator, ECU, dan sistem sensor kendaraan modern.</p>
+          <ul>
+            <li>Sistem pengisian</li>
+            <li>Sistem starter</li>
+            <li>Sensor O2, TPS, MAP, dan fungsinya</li>
+          </ul>
+          <div class="upload-section">
+            <p><b>Upload hasil laporan atau foto rangkaian:</b></p>
+            <input type="file" class="materi-file" accept="image/*,.pdf,.docx">
+            <div class="preview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="materi-item">
+        <button class="materi-header">4. Perawatan & Safety 🧰</button>
+        <div class="materi-content">
+          <p>Menjaga performa kendaraan dan keamanan pengemudi.</p>
+          <ul>
+            <li>Ganti oli dan filter</li>
+            <li>Pemeriksaan sistem rem</li>
+            <li>Perawatan ban dan kelistrikan</li>
+          </ul>
+          <div class="upload-section">
+            <p><b>Upload bukti praktik perawatan:</b></p>
+            <input type="file" class="materi-file" accept="image/*,.pdf,.docx">
+            <div class="preview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="materi-item">
+        <button class="materi-header">5. Sistem Pendinginan ❄️</button>
+        <div class="materi-content">
+          <p>Memahami sistem pendinginan air dan oli pada mesin agar suhu tetap stabil.</p>
+          <ul>
+            <li>Cara kerja radiator</li>
+            <li>Thermostat dan kipas pendingin</li>
+          </ul>
+          <div class="upload-section">
+            <p><b>Upload dokumentasi praktikum:</b></p>
+            <input type="file" class="materi-file" accept="image/*,.pdf,.docx">
+            <div class="preview"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- UPLOAD -->
+      <section id="upload" class="page page-upload" style="display:none;margin-top:18px"> <!-- halaman upload -->
+      <div class="card uploader"> <!-- kartu uploader -->
+        <h2>Upload Foto & Video (Preview Client-side)</h2> <!-- judul upload -->
+        <div class="upload-drop" id="dropZone"> <!-- area drop untuk upload -->
+          <p>Tarik & lepas foto/video di sini, atau klik tombol untuk memilih file.</p> <!-- instruksi upload -->
+          <div style="margin-top:10px"> <!-- tombol aksi upload -->
+            <input type="file" id="fileInput" accept="image/*,video/*" multiple style="display:none"> <!-- input file tersembunyi -->
+            <a class="btn small" id="chooseBtn">Pilih File</a> <!-- tombol untuk memilih file -->
+            <a class="btn small" id="clearBtn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);margin-left:8px">Hapus Semua Preview</a> <!-- tombol untuk menghapus preview -->
+          </div> <!-- akhir tombol aksi upload -->
+        </div> <!-- akhir area drop untuk upload -->
+        <div class="previews" id="previews"></div> <!-- area untuk menampilkan preview file -->
+        <p style="color:var(--muted);font-size:13px;margin-top:8px">Catatan: File hanya disimpan sementara di browser sebagai preview. Untuk menyimpan di server dibutuhkan backend (bisa saya bantu kalau mau).</p> <!-- catatan tentang penyimpanan file -->
+      </div> <!-- akhir kartu uploader -->
+    </section> <!-- akhir halaman upload -->
+
+        <!-- JADWAL -->
+     <section id="jadwal-kuliah" class="page page-jadwal-kuliah" style="display:none;margin-top:18px">
+      <div class="card">
+      <h2>📚 Jadwal Kuliah Semester 3</h2>
+      <p style="color:var(--muted)">
+      Berikut adalah jadwal kuliah Kelas B MO Semester 3 Tahun 2025–2026.  
+        </p>
+      <a href="Jadwalkuliah/Jadwal_Kuliah_Teori.pdf"
+       class="btn small"
+       target="_blank">📂 Buka File Jadwal</a>
+  </div>
+    </section>
+
+    <!-- Kalender Akademik -->
+    <section id="kalender-akademik" class="page page-kalender-akademik" style="display:none;margin-top:18px"> <!-- halaman kalender akademik -->
+      <div class="card kalender"> <!-- kartu kalender -->
+        <div class="card-body">
+          <h1>📅 Kalender Kelas B MO</h1>
+          <p>Lihat tanggal, jadwal penting, dan kegiatan kelas di sini.</p>
+
+          <div class="calendar">
+            <div class="calendar-header">
+              <button id="prevMonth">◀</button>
+              <h2 id="monthYear"></h2>
+              <button id="nextMonth">▶</button>
+            </div>
+            <div class="calendar-grid" id="calendarDays"></div>
+          </div>
+        </div>
+      </div>
+    </section> <!-- akhir kartu kalender -->
+  </main>
+
+  <footer class="footer">
+  <div class="waves">
+    <div class="wave" id="wave1"></div>
+    <div class="wave" id="wave2"></div>
+    <div class="wave" id="wave3"></div>
+    <div class="wave" id="wave4"></div>
+  </div>
+
+  <ul class="social_icon">
+    <li><a href="https://wa.me/6282328482780" target="_blank"><ion-icon name="logo-whatsapp"></ion-icon></a></li>
+    <li><a href="https://www.instagram.com/username" target="_blank"><ion-icon name="logo-instagram"></ion-icon></a></li>
+    <li><a href="https://www.facebook.com/username" target="_blank"><ion-icon name="logo-facebook"></ion-icon></a></li>
+    <li><a href="https://www.linkedin.com/in/username" target="_blank"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+  </ul>
+
+  <ul class="menu">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#materi">Materi</a></li>
+    <li><a href="#upload">Upload</a></li>
+    <li><a href="#jadwal-kuliah">Jadwal Kuliah</a></li>
+    <li><a href="#kalender-akademik">Kalender Akademik</a></li>
+  </ul>
+
+  <p>© 2025 MOB TechNexus | Designed by M. Asyhar Kafi</p>
+</footer>
+
+<!-- Tambahkan Ionicons untuk ikon -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+ <script src="Project/script.js"></script>
+</body>
+</html>
+        
+
+
+
+
+
+   
+
+
+   
+ 
+
+  
+ 

@@ -1,0 +1,160 @@
+:root{
+  --bg: #0f1724; /* primary background */
+  --bg-2: #071025; /* accent background */
+  --card: #0b1220; /* card surface */
+  --muted: #94a3b8; /* muted text */
+  --text: #e6eef8; /* primary text */
+  --accent: #7c3aed; /* purple */
+  --accent-2: #06b6d4; /* cyan */
+  --glass: rgba(255,255,255,0.04);
+  --glass-strong: rgba(255,255,255,0.06);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --shadow: 0 8px 30px rgba(2,6,23,0.6);
+  --focus: 3px;
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+  color-scheme: dark;
+}
+
+/* Light theme overrides */
+html[data-theme="light"]{
+  --bg: #f8fafc;
+  --bg-2: #eef2ff;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --text: #0f1724;
+  --accent: #6d28d9;
+  --accent-2: #0891b2;
+  --glass: rgba(15,23,36,0.03);
+  --glass-strong: rgba(2,6,23,0.04);
+  --shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
+
+/* Theme toggle button in header */
+.theme-toggle{display:inline-flex;align-items:center;gap:8px}
+.theme-toggle button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:6px 10px;border-radius:10px;cursor:pointer}
+.theme-toggle button:focus{box-shadow:0 0 0 var(--focus) rgba(124,58,237,0.18)}
+
+/* Smooth transition for theme colors */
+body, .card, .preview, .person, header, footer{transition:background-color .25s ease,color .25s ease,box-shadow .2s ease}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(135deg,var(--bg),var(--bg-2));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+/* Layout container */
+header{
+  display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.04);backdrop-filter:blur(6px);
+}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+nav{display:flex;align-items:center}
+nav a{color:var(--muted);text-decoration:none;margin-left:16px;font-weight:600;padding:8px;border-radius:8px}
+nav a.active{color:var(--text);background:transparent}
+nav a:hover{color:var(--accent-2)}
+
+main{padding:28px;max-width:1100px;margin:28px auto}
+
+/* Cards */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:var(--radius-lg);
+  padding:20px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,0.03);
+  transition:transform .22s ease, box-shadow .22s ease;
+}
+.card:hover{transform:translateY(-4px)}
+
+h1{margin:0;font-size:28px}
+p.lead{color:var(--muted);margin-top:8px}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start;margin-bottom:22px}
+@media (max-width:880px){.hero{grid-template-columns:1fr}}
+
+/* People grid */
+.people-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;margin-top:16px}
+.person{background:var(--glass);padding:12px;border-radius:12px;text-align:center}
+.person img{width:100%;height:140px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+.person h3{margin:10px 0 4px;font-size:15px}
+.person p{margin:0;font-size:13px;color:var(--muted)}
+
+/* Materi */
+.materi .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.topic{padding:16px;border-radius:12px}
+.topic h4{margin:0 0 8px}
+.topic p{color:var(--muted);font-size:14px}
+
+/* Uploader */
+.uploader{display:flex;flex-direction:column;gap:12px}
+.upload-drop{border:2px dashed rgba(255,255,255,0.06);padding:18px;border-radius:12px;text-align:center;background:transparent}
+.upload-drop.dragover{border-color:rgba(124,58,237,0.7);background:linear-gradient(180deg, rgba(124,58,237,0.04), transparent)}
+.previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px}
+.preview{background:var(--glass);padding:8px;border-radius:10px;position:relative;border:1px solid rgba(255,255,255,0.02)}
+.preview img, .preview video{width:100%;height:120px;object-fit:cover;border-radius:8px}
+.preview .meta{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;text-decoration:none;font-weight:600;border:none;cursor:pointer}
+.btn.small{font-size:13px;padding:6px 10px;border-radius:10px}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+.btn:focus{outline:none;box-shadow:0 0 0 var(--focus) rgba(6,182,212,0.18)}
+
+/* Calendar */
+.calendar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:10px}
+.calendar-grid div{padding:10px;border-radius:8px;background:rgba(255,255,255,0.03);min-height:48px}
+.today{background:#2563eb;color:#fff}
+
+/* Footer waves & social */
+.footer{position:relative;width:100%;background:linear-gradient(180deg,#0f2027,#203a43,#2c5364);color:white;text-align:center;padding:60px 20px 20px;overflow:hidden}
+.footer .waves{position:absolute;top:-80px;left:0;width:100%;height:80px}
+.wave{position:absolute;width:200%;height:100px;left:-50%;background:rgba(255,255,255,0.06);border-radius:100%;animation:waveAnimation 8s linear infinite}
+#wave1{animation-delay:0s;opacity:1}#wave2{animation-delay:2s;opacity:0.6}#wave3{animation-delay:4s;opacity:0.35}#wave4{animation-delay:6s;opacity:0.2}
+@keyframes waveAnimation{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
+
+.social_icon{display:flex;justify-content:center;gap:20px;list-style:none;margin:30px 0;padding:0}
+.social_icon li a{color:white;font-size:24px;transition:transform .25s ease,color .25s ease}
+.social_icon li a:hover{color:#00ffb3;transform:translateY(-6px) scale(1.08);text-shadow:0 0 12px #00ffb3}
+
+.menu{display:flex;justify-content:center;flex-wrap:wrap;gap:15px;list-style:none;padding:0;margin:15px 0 5px}
+.menu li a{color:#ccc;text-decoration:none;transition:color .2s}
+.menu li a:hover{color:#00ffb3;text-shadow:0 0 8px #00ffb3}
+.footer p{color:#aaa;font-size:14px;margin-top:10px;letter-spacing:0.4px}
+
+/* Page content helpers */
+.page-materi p,.page-materi .topic p{text-align:left;line-height:1.6;margin-top:6px;color:var(--muted)}
+.page-materi ul,.page-materi li{text-align:left;margin-left:20px;line-height:1.6;color:var(--muted)}
+
+/* Materi interactive */
+.materi-list{margin-top:20px}
+.materi-item{border-bottom:1px solid rgba(255,255,255,0.04);margin-bottom:10px;padding-bottom:10px}
+.materi-header{background:rgba(0,217,255,0.06);color:#00d9ff;border:none;width:100%;text-align:left;padding:12px 16px;font-size:16px;font-weight:600;cursor:pointer;border-radius:8px;transition:transform .18s ease,background .18s}
+.materi-header:hover{background:rgba(0,217,255,0.12);transform:translateX(4px)}
+.materi-content{display:none;padding:12px 18px;animation:fadeIn .3s ease forwards}
+.materi-content ul{margin-top:8px;padding-left:20px}
+
+.upload-section{margin-top:10px;background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;border:1px solid rgba(0,217,255,0.06)}
+.upload-section input{margin-top:6px}
+.preview img{margin-top:6px;max-width:100px;border-radius:6px}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Responsive tweaks */
+@media (max-width:600px){
+  .logo{width:40px;height:40px}
+  nav a{margin-left:10px;font-size:14px}
+  .person img{height:120px}
+}
+
+/* accessibility focus visibility for keyboard users */
+:focus{outline:none}
+button:focus, a:focus{box-shadow:0 0 0 var(--focus) rgba(124,58,237,0.18);border-radius:8px}
