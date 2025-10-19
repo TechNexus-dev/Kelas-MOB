@@ -20,18 +20,10 @@
         </div> <!-- akhir nama dan deskripsi situs -->
       </div> <!-- akhir logo dan nama situs -->
       <div style="display:flex;align-items:center;gap:8px">
-        <button id="mobileNavBtn" aria-label="Toggle menu" style="display:none;border:0;background:transparent;font-size:22px;margin-right:8px">☰</button>
         <div class="theme-toggle" style="margin-left:0">
           <button id="themeToggleBtn" aria-label="Toggle theme">🌗</button>
         </div>
-        <!-- device mode selector: Auto / Mobile / Desktop -->
-        <div>
-          <select id="deviceMode" aria-label="Device mode" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:6px;border-radius:8px">
-            <option value="auto">Auto</option>
-            <option value="mobile">Mobile</option>
-            <option value="desktop">Desktop</option>
-          </select>
-        </div>
+        
       </div>
     </div>
     <nav> <!-- navigasi utama -->
@@ -42,19 +34,7 @@
       <a href="#kalender-akademik"  class="nav-link" data-page="kalender-akademik">Kalender Akademik</a> <!-- tautan ke kalender akademik -->
     </nav> <!-- akhir navigasi utama -->
   </header> <!-- akhir bagian header -->
-    <!-- mobile nav overlay -->
-    <div id="mobileNav" class="mobile-nav" aria-hidden="true">
-      <div class="mobile-nav-content">
-        <button id="mobileNavClose" aria-label="Close menu" class="mobile-close">✕</button>
-        <ul>
-          <li><a href="#home" data-page="home">Home</a></li>
-          <li><a href="#materi" data-page="materi">Materi</a></li>
-          <li><a href="#upload" data-page="upload">Upload</a></li>
-          <li><a href="#jadwal-kuliah" data-page="jadwal-kuliah">Jadwal Kuliah</a></li>
-          <li><a href="#kalender-akademik" data-page="kalender-akademik">Kalender Akademik</a></li>
-        </ul>
-      </div>
-    </div>
+
   
 
   <main>
@@ -265,19 +245,7 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
  <script src="Project/script.js"></script>
-  <script>
-    if('serviceWorker' in navigator){
-      // register after window load to ensure files are available when served from simple servers
-      window.addEventListener('load', ()=>{
-        navigator.serviceWorker.register('./service-worker.js', {scope: './'})
-          .then(reg => console.log('SW registered', reg))
-          .catch(err=>{
-            console.error('SW registration failed', err && err.name, err && err.message, err && err.stack);
-            try{ if(typeof showToast==='function') showToast('Service Worker gagal terdaftar: '+(err && err.message?err.message:err)); }catch(e){}
-          });
-      });
-    }
-  </script>
+  
 </body>
 </html>
         

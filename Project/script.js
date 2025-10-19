@@ -93,37 +93,6 @@ const people = [
       applyTheme(prefersLight ? 'light' : 'dark');
     }
 
-    // Device mode: detect mobile vs desktop, but allow user override (auto|mobile|desktop)
-    function applyDeviceMode(mode){
-      // mode: 'auto'|'mobile'|'desktop'
-      let final = mode;
-      if(mode === 'auto'){
-        // simple breakpoint-based auto detection
-        final = window.innerWidth <= 800 ? 'mobile' : 'desktop';
-      }
-      document.documentElement.setAttribute('data-device', final);
-      const sel = document.getElementById('deviceMode');
-      if(sel) sel.value = mode;
-    }
-
-    function initDeviceMode(){
-      const saved = localStorage.getItem('device-mode') || 'auto';
-      applyDeviceMode(saved);
-      // watch selector
-      const sel = document.getElementById('deviceMode');
-      if(sel){
-        sel.addEventListener('change', ()=>{
-          const v = sel.value || 'auto';
-          localStorage.setItem('device-mode', v);
-          applyDeviceMode(v);
-        });
-      }
-      // update on resize when in auto mode
-      window.addEventListener('resize', ()=>{
-        const currentPref = localStorage.getItem('device-mode') || 'auto';
-        if(currentPref === 'auto') applyDeviceMode('auto');
-      });
-    }
 
     document.addEventListener('DOMContentLoaded', ()=>{
       initTheme();
@@ -134,8 +103,7 @@ const people = [
         applyTheme(next);
         localStorage.setItem('site-theme', next);
       });
-      // initialize device mode selector and auto-detect
-      try{ if(typeof initDeviceMode === 'function') initDeviceMode(); }catch(e){console.warn(e)}
+  // device mode feature removed; responsive behavior handled by CSS media queries
     });
 
     function scrollToPeople(){
@@ -390,21 +358,7 @@ function scrollToPeople(){
   });
 });
 
-// Mobile nav toggle logic (for root index.html)
-(function(){
-  const btn = document.getElementById('mobileNavBtn');
-  const mobile = document.getElementById('mobileNav');
-  const close = document.getElementById('mobileNavClose');
-  if(!btn || !mobile) return;
-  function openNav(){ mobile.setAttribute('aria-hidden','false'); mobile.classList.add('open'); }
-  function closeNav(){ mobile.setAttribute('aria-hidden','true'); mobile.classList.remove('open'); }
-  btn.addEventListener('click', openNav);
-  if(close) close.addEventListener('click', closeNav);
-  // close when link clicked inside mobile nav
-  mobile.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ closeNav(); }));
-  // close on hash change
-  window.addEventListener('hashchange', closeNav);
-})();
+
 
 
 // ===== MATERI OTOMOTIF INTERAKTIF =====

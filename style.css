@@ -34,16 +34,7 @@ html[data-theme="light"]{
   --shadow: 0 6px 18px rgba(2,6,23,0.06);
 }
 
-/* Device-specific tweaks: auto UI adjustments when device mode set */
-html[data-device="mobile"] body{
-  /* slightly higher contrast on mobile for readability */
-  background: linear-gradient(135deg,var(--bg),color-mix(in srgb, var(--bg-2) 85%, rgba(0,0,0,0.06)));
-}
-html[data-device="mobile"] .card{box-shadow:0 10px 30px rgba(2,6,23,0.7)}
-html[data-device="mobile"] h1{font-size:22px}
-html[data-device="mobile"] .person img{height:160px}
-
-html[data-device="desktop"] .person img{height:140px}
+/* Device mode feature removed: responsive media queries control layout */
 
 /* Theme toggle button in header */
 .theme-toggle{display:inline-flex;align-items:center;gap:8px}
@@ -195,26 +186,8 @@ p.lead{color:var(--muted);margin-top:8px}
 
 /* Mobile navigation with slide-in animation */
 @media (max-width:800px){
-  #mobileNavBtn{display:inline-block}
-  nav{display:none}
-  /* overlay: initially transparent and non-interactive; becomes visible when .open */
-  .mobile-nav{
-    position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:flex-start;padding:20px;z-index:1200;
-    background:rgba(0,0,0,0);opacity:0;pointer-events:none;transition:background .28s ease,opacity .28s ease;
-  }
-  .mobile-nav.open{background:rgba(0,0,0,0.6);opacity:1;pointer-events:auto}
-
-  /* panel slides in from the left */
-  .mobile-nav-content{
-    background:var(--card);width:260px;border-radius:12px;padding:16px;box-shadow:var(--shadow);
-    transform:translateX(-18px);opacity:0;transition:transform .32s cubic-bezier(.2,.9,.2,1),opacity .22s ease;
-  }
-  .mobile-nav.open .mobile-nav-content{transform:translateX(0);opacity:1}
-
-  .mobile-nav .mobile-close{background:transparent;border:0;color:var(--text);font-size:20px;float:right}
-  .mobile-nav ul{list-style:none;padding:0;margin:10px 0}
-  .mobile-nav li{margin-bottom:12px}
-  .mobile-nav a{color:var(--text);text-decoration:none;font-weight:600}
+  /* on smaller screens, keep nav visible and compact */
+  nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 }
 
 /* Make mobile feel like the monitor layout but stacked and touch-friendly */
