@@ -20,16 +20,16 @@ const people = [
       {name:'M CALLAHAND TUMBELAKA', role:'Anggota',Nim:'0420240051', photo:'foto/nurul.jpg'},
       {name:'M GAZA AL FARUQ', role:'Anggota',Nim:'0420240052', photo:'foto/rizky2.jpg'},
       {name:'M HAYDAR ALIFIAN', role:'Wakil Ketua',Nim:'0420240053', photo:'foto/haydar.jpg'},
-      {name:'M SAHRUR RAMADHANI', role:'Anggota',Nim:'0420240053', photo:'foto/sahrur.jpg'},
-      {name:'NATHANAEL KURNIA', role:'Anggota',Nim:'0420240054', photo:'foto/asyhar.jpg'},
-      {name:'PANDU DAFFA HARDIKA', role:'Anggota',Nim:'0420240055', photo:'foto/rangga.jpg'},
-      {name:'RAAFI RIZQI AKBAR', role:'Anggota',Nim:'0420240056', photo:'foto/raafi.jpg'},
-      {name:'RAMAH SAKTI SIREGAR', role:'Anggota',Nim:'0420240057', photo:'foto/ramah.jpg'},
-      {name:'RANGGA REBELIO DESRANDI', role:'Anggota',Nim:'0420240058', photo:'foto/rebelio.jpg'},
-      {name:'SATRIO PRIMANGGARA', role:'Anggota',Nim:'0420240059', photo:'foto/satrio.jpg'},
-      {name:'SELAMAT YUDISTARA', role:'Anggota',Nim:'0420240060', photo:'foto/sae.jpg'},
-      {name:'THORIQ ALFATH NUR', role:'Anggota',Nim:'0420240061', photo:'foto/thoriq.jpg'},
-      {name:'WAHYU SATRIO WIDODO', role:'Anggota',Nim:'0420240062', photo:'foto/wahyu.jpg'},
+      {name:'M SAHRUR RAMADHANI', role:'Anggota',Nim:'0420240054', photo:'foto/sahrur.jpg'},
+      {name:'NATHANAEL KURNIA', role:'Anggota',Nim:'0420240055', photo:'foto/asyhar.jpg'},
+      {name:'PANDU DAFFA HARDIKA', role:'Anggota',Nim:'0420240056', photo:'foto/rangga.jpg'},
+      {name:'RAAFI RIZQI AKBAR', role:'Anggota',Nim:'0420240057', photo:'foto/raafi.jpg'},
+      {name:'RAMAH SAKTI SIREGAR', role:'Anggota',Nim:'0420240058', photo:'foto/ramah.jpg'},
+      {name:'RANGGA REBELIO DESRANDI', role:'Anggota',Nim:'0420240059', photo:'foto/rebelio.jpg'},
+      {name:'SATRIO PRIMANGGARA', role:'Anggota',Nim:'0420240060', photo:'foto/satrio.jpg'},
+      {name:'SELAMAT YUDISTARA', role:'Anggota',Nim:'0420240061', photo:'foto/sae.jpg'},
+      {name:'THORIQ ALFATH NUR', role:'Anggota',Nim:'0420240062', photo:'foto/thoriq.jpg'},
+      {name:'WAHYU SATRIO WIDODO', role:'Anggota',Nim:'0420240063', photo:'foto/wahyu.jpg'},
 
 
 
@@ -40,8 +40,12 @@ const people = [
       people.forEach(p=>{
         const el = document.createElement('div');
         el.className = 'person';
+        // Prefer responsive images: provide a few sizes via srcset. If photos are served
+        // from static folder without multiple sizes, browsers will pick the single source.
+        const src = p.photo;
+        const srcset = `${src} 480w, ${src} 768w, ${src} 1200w`;
         el.innerHTML = `
-          <img loading="lazy" src="${p.photo}" alt="Foto ${p.name}">
+          <img loading="lazy" src="${src}" srcset="${srcset}" sizes="(max-width:600px) 100vw, 150px" alt="Foto ${p.name}">
           <h3>${p.name}</h3>
           <p class="role">${p.role}</p>
           <p class="nim">NIM: ${p.Nim || ''}</p>
@@ -89,6 +93,38 @@ const people = [
       applyTheme(prefersLight ? 'light' : 'dark');
     }
 
+    // Device mode: detect mobile vs desktop, but allow user override (auto|mobile|desktop)
+    function applyDeviceMode(mode){
+      // mode: 'auto'|'mobile'|'desktop'
+      let final = mode;
+      if(mode === 'auto'){
+        // simple breakpoint-based auto detection
+        final = window.innerWidth <= 800 ? 'mobile' : 'desktop';
+      }
+      document.documentElement.setAttribute('data-device', final);
+      const sel = document.getElementById('deviceMode');
+      if(sel) sel.value = mode;
+    }
+
+    function initDeviceMode(){
+      const saved = localStorage.getItem('device-mode') || 'auto';
+      applyDeviceMode(saved);
+      // watch selector
+      const sel = document.getElementById('deviceMode');
+      if(sel){
+        sel.addEventListener('change', ()=>{
+          const v = sel.value || 'auto';
+          localStorage.setItem('device-mode', v);
+          applyDeviceMode(v);
+        });
+      }
+      // update on resize when in auto mode
+      window.addEventListener('resize', ()=>{
+        const currentPref = localStorage.getItem('device-mode') || 'auto';
+        if(currentPref === 'auto') applyDeviceMode('auto');
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', ()=>{
       initTheme();
       const tbtn = document.getElementById('themeToggleBtn');
@@ -98,6 +134,8 @@ const people = [
         applyTheme(next);
         localStorage.setItem('site-theme', next);
       });
+      // initialize device mode selector and auto-detect
+      try{ if(typeof initDeviceMode === 'function') initDeviceMode(); }catch(e){console.warn(e)}
     });
 
     function scrollToPeople(){
@@ -182,21 +220,41 @@ function scrollToPeople(){
     function handleFiles(fileList){
       const arr = Array.from(fileList);
       arr.forEach(file=>{
-        const reader = new FileReader();
-        reader.onload = (ev)=>{
-          const url = ev.target.result;
-          const card = document.createElement('div'); card.className='preview';
-          if(file.type.startsWith('image/')){
-            card.innerHTML = `<img src="${url}" alt="preview"><div class='meta'>${file.name} • ${formatBytes(file.size)}</div>`;
-          } else if(file.type.startsWith('video/')){
-            card.innerHTML = `<video controls src="${url}"></video><div class='meta'>${file.name} • ${formatBytes(file.size)}</div>`;
-          } else {
-            card.innerHTML = `<div style='padding:24px;text-align:center'>Tidak didukung: ${file.name}</div>`;
-          }
-          if(previews) previews.prepend(card);
-          savePreviewsToStorage();
-        };
-        reader.readAsDataURL(file);
+        // For images: resize/compress before creating data URL to limit localStorage use
+        if(file.type.startsWith('image/')){
+          resizeImageFile(file, 1200, 0.78).then(({dataUrl, size})=>{
+            const card = document.createElement('div'); card.className='preview';
+            card.innerHTML = `<img src="${dataUrl}" alt="preview"><div class='meta'>${file.name} • ${formatBytes(size)}</div>`;
+            if(previews) previews.prepend(card);
+            savePreviewsToStorage();
+          }).catch(err=>{
+            console.warn('Image resize failed, falling back to original', err);
+            const reader = new FileReader();
+            reader.onload = (ev)=>{
+              const url = ev.target.result;
+              const card = document.createElement('div'); card.className='preview';
+              card.innerHTML = `<img src="${url}" alt="preview"><div class='meta'>${file.name} • ${formatBytes(file.size)}</div>`;
+              if(previews) previews.prepend(card);
+              savePreviewsToStorage();
+            };
+            reader.readAsDataURL(file);
+          });
+        } else {
+          // Non-image (video etc.) — keep existing behaviour but be careful with size
+          const reader = new FileReader();
+          reader.onload = (ev)=>{
+            const url = ev.target.result;
+            const card = document.createElement('div'); card.className='preview';
+            if(file.type.startsWith('video/')){
+              card.innerHTML = `<video controls src="${url}"></video><div class='meta'>${file.name} • ${formatBytes(file.size)}</div>`;
+            } else {
+              card.innerHTML = `<div style='padding:24px;text-align:center'>Tidak didukung: ${file.name}</div>`;
+            }
+            if(previews) previews.prepend(card);
+            savePreviewsToStorage();
+          };
+          reader.readAsDataURL(file);
+        }
       })
     }
 
@@ -206,15 +264,92 @@ function scrollToPeople(){
       return parseFloat((bytes/Math.pow(k,i)).toFixed(dm))+' '+sizes[i];
     }
 
-    // Simple persistence (data URLs) — not for production with large files
-    function savePreviewsToStorage(){
-  const nodes = previews ? Array.from(previews.querySelectorAll('img,video')) : [];
-      const data = nodes.map(n=>({type:n.tagName.toLowerCase(),src:n.src}));
-      try{localStorage.setItem('previews',JSON.stringify(data))}catch(e){/* ignore */}
+    /**
+     * Resize and compress an image File to a data URL using canvas.
+     * Returns a promise resolving { dataUrl, size }
+     * maxWidth: target max width in px; quality: 0..1 for JPEG/WEBP
+     */
+    function resizeImageFile(file, maxWidth = 1200, quality = 0.8){
+      return new Promise((resolve, reject)=>{
+        if(!file.type.startsWith('image/')) return reject(new Error('Not an image'));
+        const img = new Image();
+        const reader = new FileReader();
+        reader.onload = (e)=>{
+          img.onload = ()=>{
+            try{
+              const ratio = img.width / img.height;
+              const targetWidth = Math.min(img.width, maxWidth);
+              const targetHeight = Math.round(targetWidth / ratio);
+              const canvas = document.createElement('canvas');
+              canvas.width = targetWidth;
+              canvas.height = targetHeight;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+              // choose output type
+              const type = 'image/jpeg';
+              const dataUrl = canvas.toDataURL(type, quality);
+              // estimate size
+              const size = Math.round((dataUrl.length * 3) / 4); // base64 -> bytes approx
+              resolve({dataUrl, size});
+            }catch(err){reject(err)}
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
     }
+
+    // Simple persistence (data URLs) — resize/compress images before storing and cap total size.
+    const PREVIEWS_STORAGE_KEY = 'previews';
+    const PREVIEWS_MAX_BYTES = 1_500_000; // ~1.5MB total to avoid exceeding localStorage (approx)
+
+    function savePreviewsToStorage(){
+      const nodes = previews ? Array.from(previews.querySelectorAll('img,video')) : [];
+      const data = nodes.map(n=>({type:n.tagName.toLowerCase(),src:n.src}));
+      try{
+        // Estimate size and trim if necessary (keep newest first)
+        let json = JSON.stringify(data);
+        let trimmedOccurred = false;
+        if(new Blob([json]).size > PREVIEWS_MAX_BYTES){
+          // remove older entries until under limit
+          let trimmed = data.slice();
+          while(trimmed.length && new Blob([JSON.stringify(trimmed)]).size > PREVIEWS_MAX_BYTES){
+            trimmed.pop();
+            trimmedOccurred = true;
+          }
+          json = JSON.stringify(trimmed);
+        }
+        localStorage.setItem(PREVIEWS_STORAGE_KEY,json);
+        if(trimmedOccurred) showToast('Peringatan: preview lama dipangkas karena batas penyimpanan', 'info');
+      }catch(e){console.warn('Failed to save previews to storage:', e)}
+    }
+
+    // Toast helper
+    function showToast(message, type=''){
+      let container = document.querySelector('.toast-container');
+      if(!container){ container = document.createElement('div'); container.className='toast-container'; document.body.appendChild(container); }
+      const t = document.createElement('div'); t.className = 'toast ' + (type||''); t.textContent = message;
+      container.appendChild(t);
+      setTimeout(()=>{ t.style.opacity = '0'; t.style.transform = 'translateY(8px)'; setTimeout(()=>t.remove(),300); }, 4200);
+    }
+
+    // Offline/online banner
+    function updateOnlineStatus(){
+      if(!document.getElementById('offlineBanner')){
+        const el = document.createElement('div'); el.id = 'offlineBanner'; el.className = 'offline-banner'; el.style.display='none'; el.textContent='Anda sedang offline — beberapa fitur mungkin tidak berfungsi'; document.body.appendChild(el);
+      }
+      const b = document.getElementById('offlineBanner'); if(!b) return;
+      if(!navigator.onLine){ b.style.display='block'; } else { b.style.display='none'; }
+    }
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+
     function loadPreviewsFromStorage(){
       try{
-        const raw = localStorage.getItem('previews'); if(!raw) return;
+        const raw = localStorage.getItem(PREVIEWS_STORAGE_KEY); if(!raw) return;
         const arr = JSON.parse(raw);
         arr.forEach(item=>{
           const card = document.createElement('div'); card.className='preview';
@@ -254,6 +389,22 @@ function scrollToPeople(){
     });
   });
 });
+
+// Mobile nav toggle logic (for root index.html)
+(function(){
+  const btn = document.getElementById('mobileNavBtn');
+  const mobile = document.getElementById('mobileNav');
+  const close = document.getElementById('mobileNavClose');
+  if(!btn || !mobile) return;
+  function openNav(){ mobile.setAttribute('aria-hidden','false'); mobile.classList.add('open'); }
+  function closeNav(){ mobile.setAttribute('aria-hidden','true'); mobile.classList.remove('open'); }
+  btn.addEventListener('click', openNav);
+  if(close) close.addEventListener('click', closeNav);
+  // close when link clicked inside mobile nav
+  mobile.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ closeNav(); }));
+  // close on hash change
+  window.addEventListener('hashchange', closeNav);
+})();
 
 
 // ===== MATERI OTOMOTIF INTERAKTIF =====
