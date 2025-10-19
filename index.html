@@ -239,6 +239,23 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
  <script src="Project/script.js"></script>
+
+<!-- Safety: unregister any existing service workers and clear caches for this origin -->
+<script>
+  (function(){
+    try{
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.getRegistrations().then(regs=>{
+          regs.forEach(r=>{ r.unregister().then(()=>console.info('ServiceWorker unregistered:', r.scope)).catch(()=>{}); });
+        }).catch(()=>{});
+      }
+      if(window.caches){
+        caches.keys().then(keys=>{ keys.forEach(k=>{ caches.delete(k).then(()=>console.info('Cache deleted:',k)).catch(()=>{}); }); }).catch(()=>{});
+      }
+    }catch(e){console.warn('sw cleanup error',e)}
+  })();
+</script>
+
 </body>
 </html>
         
