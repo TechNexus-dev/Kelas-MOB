@@ -12,10 +12,6 @@
   --radius-lg: 16px;
   --shadow: 0 8px 30px rgba(2,6,23,0.6);
   --focus: 3px;
-  /* spacing scale used by utility classes */
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
   font-family: 'Inter', system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
   color-scheme: dark;
 }
@@ -33,8 +29,6 @@ html[data-theme="light"]{
   --glass-strong: rgba(2,6,23,0.04);
   --shadow: 0 6px 18px rgba(2,6,23,0.06);
 }
-
-/* Device mode feature removed: responsive media queries control layout */
 
 /* Theme toggle button in header */
 .theme-toggle{display:inline-flex;align-items:center;gap:8px}
@@ -57,14 +51,12 @@ body{
 
 /* Layout container */
 header{
-  display:flex;flex-direction:column;align-items:stretch;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.04);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.04);backdrop-filter:blur(6px);
 }
-.header-top{display:flex;align-items:center;justify-content:space-between}
-.header-top .brand{display:flex;gap:12px;align-items:center}
 .brand{display:flex;gap:12px;align-items:center}
 .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
-nav{display:flex;justify-content:center;gap:12px;padding:8px 0}
-nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600}
+nav{display:flex;align-items:center}
+nav a{color:var(--muted);text-decoration:none;margin-left:16px;font-weight:600;padding:8px;border-radius:8px}
 nav a.active{color:var(--text);background:transparent}
 nav a:hover{color:var(--accent-2)}
 
@@ -142,23 +134,6 @@ p.lead{color:var(--muted);margin-top:8px}
 .page-materi p,.page-materi .topic p{text-align:left;line-height:1.6;margin-top:6px;color:var(--muted)}
 .page-materi ul,.page-materi li{text-align:left;margin-left:20px;line-height:1.6;color:var(--muted)}
 
-/* Layout spacing utilities (small, medium, large) */
-.space-sm{margin:var(--space-sm)!important}
-.space-md{margin:var(--space-md)!important}
-.space-lg{margin:var(--space-lg)!important}
-.mt-sm{margin-top:var(--space-sm)!important}
-.mt-md{margin-top:var(--space-md)!important}
-.mt-lg{margin-top:var(--space-lg)!important}
-.mb-sm{margin-bottom:var(--space-sm)!important}
-.mb-md{margin-bottom:var(--space-md)!important}
-.mb-lg{margin-bottom:var(--space-lg)!important}
-.p-sm{padding:var(--space-sm)!important}
-.p-md{padding:var(--space-md)!important}
-.p-lg{padding:var(--space-lg)!important}
-
-/* Utility: small inline spacer */
-.spacer{display:inline-block;width:var(--space-md);height:1px}
-
 /* Materi interactive */
 .materi-list{margin-top:20px}
 .materi-item{border-bottom:1px solid rgba(255,255,255,0.04);margin-bottom:10px;padding-bottom:10px}
@@ -176,64 +151,10 @@ p.lead{color:var(--muted);margin-top:8px}
 /* Responsive tweaks */
 @media (max-width:600px){
   .logo{width:40px;height:40px}
-  nav a{font-size:14px;padding:8px}
+  nav a{margin-left:10px;font-size:14px}
   .person img{height:120px}
-  /* keep header-top controls visible and compact */
-  .header-top{gap:8px}
-}
-
-/* Mobile navigation with slide-in animation */
-@media (max-width:800px){
-  /* on smaller screens, keep nav visible and compact */
-  nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-}
-
-/* Make mobile feel like the monitor layout but stacked and touch-friendly */
-@media (max-width:800px){
-  header{padding:12px 16px}
-  .brand{gap:10px}
-  /* keep header controls visible on all sizes */
-  main{padding:16px}
-  .card{padding:14px;border-radius:12px}
-  h1{font-size:20px}
-  h2{font-size:18px}
-  p.lead{font-size:14px}
-
-  /* Hero stacks: content first, aside below (already in source) */
-  .hero{grid-template-columns:1fr;gap:16px}
-
-  /* Make people grid more compact but similar to desktop proportions */
-  .people-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-  .person{padding:10px}
-  .person img{height:110px}
-  .person h3{font-size:14px}
-  .person p{font-size:12px}
-
-  /* Buttons full width where appropriate */
-  .card .btn{width:auto}
-  .btn.small{padding:8px 12px}
-
-  /* Calendar and previews adjustments */
-  .calendar-grid{gap:6px}
-  .calendar-grid div{padding:8px}
-
-}
-
-@media (max-width:420px){
-  /* Very small screens: one-column people list and larger touch targets */
-  .people-grid{grid-template-columns:1fr;gap:10px}
-  .person img{height:140px}
-  .btn{width:100%;display:block;text-align:center}
-  /* removed mobile overlay styles */
-  main{padding:12px}
 }
 
 /* accessibility focus visibility for keyboard users */
 :focus{outline:none}
 button:focus, a:focus{box-shadow:0 0 0 var(--focus) rgba(124,58,237,0.18);border-radius:8px}
-
-/* Toast notifications */
-.toast-container{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:2200;display:flex;flex-direction:column;gap:8px;align-items:center}
-.toast{background:rgba(0,0,0,0.8);color:white;padding:10px 14px;border-radius:10px;box-shadow:0 8px 20px rgba(2,6,23,0.6);font-weight:600}
-.toast.info{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-.offline-banner{position:fixed;left:0;right:0;top:0;background:#fffbeb;color:#92400e;padding:8px;text-align:center;font-weight:600;z-index:2100}
