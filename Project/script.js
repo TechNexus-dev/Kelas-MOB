@@ -63,10 +63,14 @@ const people = [
       document.querySelectorAll('.page').forEach(s=>s.style.display='none');
       const el = document.getElementById(page);
       if(el) el.style.display = 'block';
-      navLinks.forEach(a=>a.classList.toggle('active', a.dataset.page===page));
+      if(navLinks && navLinks.length){
+        navLinks.forEach(a=>a.classList.toggle('active', a.dataset.page===page));
+      }
       try{ location.hash = page }catch(e){}
     }
-    navLinks.forEach(a=>a.addEventListener('click', (e)=>{e.preventDefault();navigate(a.dataset.page)}));
+    if(navLinks && navLinks.length){
+      navLinks.forEach(a=>a.addEventListener('click', (e)=>{e.preventDefault();navigate(a.dataset.page)}));
+    }
     // initialize from hash after DOM loaded
     document.addEventListener('DOMContentLoaded', ()=>{
       const start = (location.hash.replace('#','') || 'home');
